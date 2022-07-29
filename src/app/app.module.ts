@@ -2,15 +2,18 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { GridModule,PagerModule,PageService,SortService,FilterService,GroupService } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    GridModule,
+    PagerModule
   ],
-  providers: [],
+  providers: [PageService,SortService,FilterService,GroupService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
