@@ -1,33 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import {data}  from '../data'
+import {DataManager, ODataV4Adaptor,Query} from '@syncfusion/ej2-data';
 
 @Component({
   selector: 'app-root',
-  template:`<ejs-grid [dataSource]='data' [allowGrouping]="true" [allowFiltering]="true" [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings'>
+  template:`<ejs-grid [dataSource]='data' [query]='param'>
     <e-columns>
-      <e-column field="OrderID" headerText='Product ID' textAlign="Left" width='80'></e-column>
-      <e-column field="CustomerID" headerText="Customer ID" textAlign="left"></e-column>
-      <e-column field="EmployeeID" headerText="Customer ID" textAlign="left"></e-column>
-      <e-column field="OrderDate" headerText="Order Date" textAlign="left"></e-column>
-      <e-column field="ShipName" headerText="Ship Name" textAlign="left"></e-column>
-      <e-column field="ShipCity" headerText="Ship City" textAlign="left"></e-column>
-      <e-column field="ShipAddress" headerText="Ship Address" textAlign="left" width="150"></e-column>
-      <e-column field="ShipRegion" headerText="Ship Region" textAlign="left"></e-column>
-      <e-column field="ShipPostalCode" headerText="Ship Postal Code" textAlign="left" width="150"></e-column>
-      <e-column field="ShipCountry" headerText="Ship Country" textAlign="left"></e-column>
-      <e-column field="Freight" textAlign="left"></e-column>
-      <e-column field="Verified" textAlign="left"></e-column>
+      <e-column field="OrderID" headerText="Order ID"></e-column>
+      <e-column field="CustomerID" headerText="Customer ID"></e-column>
+      <e-column field="ShipName" headerText="Ship Name"></e-column>
+      <e-column field="ShipCity" headerText="Ship City"></e-column>
+      <e-column field="ShipCountry" headerText="Ship Country"></e-column>
     </e-columns>
   </ejs-grid>`,
-  //templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  public data: Object[] = []
-  public pageSettings: PageSettingsModel = {pageSize:5}
-  ngOnInit(): void {
-    this.data = data;
-  }
-  
+export class AppComponent{
+  public data: DataManager = new DataManager({
+    url:'https://services.odata.org/V4/Northwind/Northwind.svc/Orders/?$top=7',
+    adaptor: new ODataV4Adaptor() // since this url requires this adaptor hence we have used this.
+  })
+
+  //if you want to pass additional query params.
+  //to pass multiple params you can use multiple add params
+  public param: Query = new Query().addParams('Status','Closed');
 }
